@@ -35,9 +35,9 @@ namespace TestWebApi.Controllers
 
         [HttpPut]
         [Route("v1/Samples/{id}")]
-        public IHttpActionResult Put([FromBody] PutItem putItem)
+        public IHttpActionResult Put([FromBody] PutItem putItem, int id)
         {
-            return Ok(new GetItem {Id = 1, Name = "Name1"});
+            return Ok(new GetItem {Id = id, Name = "Name1"});
         }
     }
 }

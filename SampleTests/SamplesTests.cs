@@ -50,5 +50,19 @@ namespace SampleTests
             // Assert
             result.StatusCode.Should().Be(HttpStatusCode.Created);
         }
+
+        [Test]
+        public async Task CallingPutReturnsOk()
+        {
+            // Arrange
+            var uri = new Uri("http://localhost:36146/v1/Samples/1");
+            var content = new PutItem();
+
+            // Act
+            var result = await RestCall.CallPutAsync(uri, content);
+
+            // Assert
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }

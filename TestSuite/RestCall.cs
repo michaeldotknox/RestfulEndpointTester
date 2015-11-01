@@ -38,12 +38,25 @@ namespace TestSuite
                 {
                     throw e;
                 }
-                throw new NotImplementedException();
         }
 
         public async static Task<HttpResponseMessage> CallPutAsync<T>(Uri uri, T content)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+                try
+                {
+                    var response =
+                        await
+                            client.PutAsync(uri,
+                                new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8,
+                                    "application/json"));
+
+                    return response;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
         }
 
         public async static Task<HttpResponseMessage> CallOptionsAsync(Uri uri)
