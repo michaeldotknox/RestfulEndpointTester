@@ -45,10 +45,13 @@
     <Compile Include="Attributes\TestAttribute.cs" />
     <Compile Include="Attributes\TestClassAttribute.cs" />
     <Compile Include="Enums\Methods.cs" />
+    <Compile Include="Enums\TestResult.cs" />
     <Compile Include="ExceptionInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestCall.cs" />
+    <Compile Include="ResultInfo.cs" />
     <Compile Include="TestClass.cs" />
+    <Compile Include="TestInfo.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup />
