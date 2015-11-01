@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using TestSuite.Attributes;
 using TestSuite.Enums;
@@ -51,10 +52,6 @@ namespace TestSuite
 
         public async Task<ResultInfo> Run()
         {
-            var testsResult = new ResultInfo
-            {
-                TotalTests = _tests.Sum(type => type.Tests.Count())
-            };
             var testResults = new List<TestInfo>();
 
             foreach (var type in _tests)
@@ -67,12 +64,10 @@ namespace TestSuite
                     {
                         var result = (Task) test.Invoke(testClass, new object[] {});
                         await result;
-                        testsResult.TestsPassed++;
                         testResult.Result = TestResult.Pass;
                     }
                     catch (Exception e)
                     {
-                        testsResult.TestsFailed++;
                         testResult.Result = TestResult.Fail;
                         testResult.Exception = e;
                     }
@@ -83,8 +78,14 @@ namespace TestSuite
                 }
             }
 
-            testsResult.TestsNotRun = testsResult.TotalTests - testsResult.TestsPassed - testsResult.TestsFailed;
-            testsResult.TestInfo = testResults;
+            var testsResult = new ResultInfo
+            {
+                TotalTests = _tests.Sum(type => type.Tests.Count()),
+                TestInfo = testResults,
+                TestsFailed = testResults.Count(x => x.Result == TestResult.Fail),
+                TestsPassed = testResults.Count(x => x.Result == TestResult.Pass),
+                TestsNotRun = testResults.Count(x => x.Result == TestResult.NotRun)
+            };
             return testsResult;
         }
     }
