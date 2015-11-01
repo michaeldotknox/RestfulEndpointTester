@@ -18,7 +18,7 @@ namespace TestSuite
         {
             _tests = tests;
         }
-         
+
         public static Tests Initialize()
         {
             var tests = new List<TestClass>();
@@ -59,22 +59,8 @@ namespace TestSuite
                 var testClass = type.Assembly.CreateInstance(type.Type.ToString());
                 foreach (var test in type.Tests)
                 {
-                    var testResult = new TestInfo {Name = test.Name, Result = TestResult.NotRun};
-                    try
-                    {
-                        var result = (Task) test.Invoke(testClass, new object[] {});
-                        await result;
-                        testResult.Result = TestResult.Pass;
-                    }
-                    catch (Exception e)
-                    {
-                        testResult.Result = TestResult.Fail;
-                        testResult.Exception = e;
-                    }
-                    finally
-                    {
-                        testResults.Add(testResult);
-                    }
+                    var testResult = await ExecuteTest(test, testClass);
+                    testResults.Add(testResult);
                 }
             }
 
@@ -87,6 +73,23 @@ namespace TestSuite
                 TestsNotRun = testResults.Count(x => x.Result == TestResult.NotRun)
             };
             return testsResult;
+        }
+
+        private static async Task<TestInfo> ExecuteTest(MethodInfo test, object testClass)
+        {
+            var testResult = new TestInfo {Name = test.Name, Result = TestResult.NotRun};
+            try
+            {
+                var result = (Task) test.Invoke(testClass, new object[] {});
+                await result;
+                testResult.Result = TestResult.Pass;
+            }
+            catch (Exception e)
+            {
+                testResult.Result = TestResult.Fail;
+                testResult.Exception = e;
+            }
+            return testResult;
         }
     }
 }
