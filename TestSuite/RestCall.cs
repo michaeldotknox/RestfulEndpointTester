@@ -42,5 +42,10 @@ namespace TestSuite
         {
             throw new NotImplementedException();
         }
+
+        public async static Task<HttpResponseMessage> CallPatchAsync<T>(Uri uri, T content)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
