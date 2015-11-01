@@ -22,5 +22,25 @@ namespace TestSuite
                 }
             }
         }
+
+        public async static Task<HttpResponseMessage> CallPostAsync<T>(Uri uri, T content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async static Task<HttpResponseMessage> CallPutAsync<T>(Uri uri, T content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async static Task<HttpResponseMessage> CallOptionsAsync(Uri uri)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async static Task<HttpResponseMessage> CallDeleteAsync(Uri uri)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
