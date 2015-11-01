@@ -52,12 +52,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{257E7399-4F34-4F7F-AD0A-D5AEAE1BF418}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestSuite\TestSuite.csproj">
       <Project>{7AB3268C-AD74-48C3-B604-AF671A719E37}</Project>
       <Name>TestSuite</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestWebApi\TestWebApi.csproj">
+      <Project>{411F3631-9A3E-4B9A-A447-5D2F4DE11F65}</Project>
+      <Name>TestWebApi</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

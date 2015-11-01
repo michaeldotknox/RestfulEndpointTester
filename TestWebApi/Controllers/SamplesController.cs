@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
-using TestWebApi.DataContracts.v1;
+using Common.DataContracts.v1;
 
 namespace TestWebApi.Controllers
 {
@@ -30,7 +30,7 @@ namespace TestWebApi.Controllers
         [Route("v1/Samples")]
         public IHttpActionResult Post([FromBody] PostItem postItem)
         {
-            return Created(new Uri("v1/samples/1"), new GetItem {Id = 1, Name = "Name1"});
+            return Created(new Uri("http://localhost:36146/v1/samples/1"), new GetItem {Id = 1, Name = "Name1"});
         }
 
         [HttpPut]

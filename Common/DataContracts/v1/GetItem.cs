@@ -1,4 +1,4 @@
-﻿namespace TestWebApi.DataContracts.v1
+﻿namespace Common.DataContracts.v1
 {
     public class GetItem
     {
