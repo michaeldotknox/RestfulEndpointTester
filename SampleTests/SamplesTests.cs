@@ -64,5 +64,18 @@ namespace SampleTests
             // Assert
             result.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
+        [Test]
+        public async Task CallingDeleteReturnsOk()
+        {
+            // Arrange
+            var uri = new Uri("http://localhost:36146/v1/Samples/1");
+
+            // Act
+            var result = await RestCall.CallDeleteAsync(uri);
+
+            // Assert
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }

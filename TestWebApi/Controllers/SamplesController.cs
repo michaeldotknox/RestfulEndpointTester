@@ -39,5 +39,12 @@ namespace TestWebApi.Controllers
         {
             return Ok(new GetItem {Id = id, Name = "Name1"});
         }
+
+        [HttpDelete]
+        [Route("v1/Samples/{id}")]
+        public IHttpActionResult Delete(int id)
+        {
+            return Ok();
+        }
     }
 }
