@@ -77,5 +77,31 @@ namespace SampleTests
             // Assert
             result.StatusCode.Should().Be(HttpStatusCode.OK);
         }
+
+        [Test]
+        public async Task CallingOptionsReturnsOk()
+        {
+            // Arrange
+            var uri = new Uri("http://localhost:36146/v1/Samples");
+
+            // Act
+            var result = await RestCall.CallOptionsAsync(uri);
+
+            // Assert
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Test]
+        public async Task CallingOptionsByIdReturnsOk()
+        {
+            // Arrange
+            var uri = new Uri("http://localhost:36146/v1/Samples/1");
+
+            // Act
+            var result = await RestCall.CallOptionsAsync(uri);
+
+            // Assert
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
     }
 }

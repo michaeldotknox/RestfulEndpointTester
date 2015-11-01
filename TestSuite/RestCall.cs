@@ -61,7 +61,17 @@ namespace TestSuite
 
         public async static Task<HttpResponseMessage> CallOptionsAsync(Uri uri)
         {
-            throw new NotImplementedException();
+            using (var client = new HttpClient())
+                try
+                {
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Options, uri);
+                    var response = await client.SendAsync(requestMessage);
+                    return response;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
         }
 
         public async static Task<HttpResponseMessage> CallDeleteAsync(Uri uri)
