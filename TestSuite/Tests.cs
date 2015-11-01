@@ -12,12 +12,10 @@ namespace TestSuite
     public class Tests
     {
         private readonly List<TestClass> _tests;
-        private readonly List<ExceptionInfo> _exceptions; 
 
         private Tests(List<TestClass> tests)
         {
             _tests = tests;
-            _exceptions = new List<ExceptionInfo>();
         }
          
         public static Tests Initialize()
@@ -51,26 +49,43 @@ namespace TestSuite
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ExceptionInfo>> Run()
+        public async Task<ResultInfo> Run()
         {
+            var testsResult = new ResultInfo
+            {
+                TotalTests = _tests.Sum(type => type.Tests.Count())
+            };
+            var testResults = new List<TestInfo>();
+
             foreach (var type in _tests)
             {
                 var testClass = type.Assembly.CreateInstance(type.Type.ToString());
                 foreach (var test in type.Tests)
                 {
+                    var testResult = new TestInfo {Name = test.Name, Result = TestResult.NotRun};
                     try
                     {
-                        var result = (Task)test.Invoke(testClass, new object[] {});
+                        var result = (Task) test.Invoke(testClass, new object[] {});
                         await result;
+                        testsResult.TestsPassed++;
+                        testResult.Result = TestResult.Pass;
                     }
                     catch (Exception e)
                     {
-                        _exceptions.Add(new ExceptionInfo {MethodName = test.Name, Exception = e});
+                        testsResult.TestsFailed++;
+                        testResult.Result = TestResult.Fail;
+                        testResult.Exception = e;
+                    }
+                    finally
+                    {
+                        testResults.Add(testResult);
                     }
                 }
             }
 
-            return _exceptions;
+            testsResult.TestsNotRun = testsResult.TotalTests - testsResult.TestsPassed - testsResult.TestsFailed;
+            testsResult.TestInfo = testResults;
+            return testsResult;
         }
     }
 }

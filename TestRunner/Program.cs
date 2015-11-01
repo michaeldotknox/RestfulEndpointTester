@@ -12,11 +12,11 @@ namespace TestRunner
             var task = tests.Run();
             Task.WaitAll(task);
 
-            var exceptions = task.Result;
+            var results = task.Result;
 
-            foreach (var exception in exceptions)
+            foreach (var test in results.TestInfo)
             {
-                Console.WriteLine($"{exception.MethodName}:{exception.Exception.Message}");
+                Console.WriteLine($"{test.Name}:{test.Result}");
             }
         }
     }
