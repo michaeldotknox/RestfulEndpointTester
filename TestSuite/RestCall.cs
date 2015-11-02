@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -8,89 +9,72 @@ namespace TestSuite
 {
     public static class RestCall
     {
-        public async static Task<HttpResponseMessage> CallGetAsync(Uri uri)
+        public async static Task<RestCallContentResult<TContentOut>> CallGetAsync<TContentOut>(Uri uri) where TContentOut : class
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+            return await MakeRestCallAsync<TContentOut>(requestMessage);
+        }
+
+        public async static Task<RestCallContentResult<TContentOut>> CallPostAsync<TContentOut, TContentIn>(Uri uri, TContentIn content) where TContentOut : class
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri) {Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json")};
+            return await MakeRestCallAsync<TContentOut>(requestMessage);
+        }
+
+        public static async Task<RestCallContentResult<TContentOut>> CallPutAsync<TContentOut, TContentIn>(Uri uri, TContentIn content) where TContentOut : class
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Put, uri) {Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json")};
+            return await MakeRestCallAsync<TContentOut>(requestMessage);
+        }
+
+        public async static Task<RestCallNoContentResult> CallOptionsAsync(Uri uri)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Options, uri);
+            return await MakeRestCallWithoutContentAsync(requestMessage);
+        }
+
+        public async static Task<RestCallNoContentResult> CallDeleteAsync(Uri uri)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
+            return await MakeRestCallWithoutContentAsync(requestMessage);
+        }
+
+        public static async Task<RestCallContentResult<TContentOut>> CallPatchAsync<TContentOut, TContentIn>(Uri uri, TContentIn content) where TContentOut : class
+        {
+            throw new NotImplementedException();
+        }
+
+        private async static Task<RestCallContentResult<TContent>> MakeRestCallAsync<TContent>(HttpRequestMessage request) where TContent : class
         {
             using (var client = new HttpClient())
             {
-                try
+                var callResult = await client.SendAsync(request);
+                var result = new RestCallContentResult<TContent>
                 {
-                    var response = await client.GetAsync(uri);
+                    Headers = callResult.Headers,
+                    Status = callResult.StatusCode,
+                    Content = JsonConvert.DeserializeObject<TContent>(await callResult.Content.ReadAsStringAsync()),
+                    HttpResponseMessage = callResult
+                };
 
-                    return response;
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
+                return result;
             }
         }
 
-        public async static Task<HttpResponseMessage> CallPostAsync<T>(Uri uri, T content)
+        private async static Task<RestCallNoContentResult> MakeRestCallWithoutContentAsync(HttpRequestMessage request)
         {
             using (var client = new HttpClient())
-                try
+            {
+                var callResult = await client.SendAsync(request);
+                var result = new RestCallNoContentResult
                 {
-                    var response = await client.PostAsync(uri, new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json"));
+                    Headers = callResult.Headers,
+                    Status = callResult.StatusCode,
+                    HttpResponseMessage = callResult
+                };
 
-                    return response;
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-        }
-
-        public async static Task<HttpResponseMessage> CallPutAsync<T>(Uri uri, T content)
-        {
-            using (var client = new HttpClient())
-                try
-                {
-                    var response =
-                        await
-                            client.PutAsync(uri,
-                                new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8,
-                                    "application/json"));
-
-                    return response;
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-        }
-
-        public async static Task<HttpResponseMessage> CallOptionsAsync(Uri uri)
-        {
-            using (var client = new HttpClient())
-                try
-                {
-                    var requestMessage = new HttpRequestMessage(HttpMethod.Options, uri);
-                    var response = await client.SendAsync(requestMessage);
-                    return response;
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-        }
-
-        public async static Task<HttpResponseMessage> CallDeleteAsync(Uri uri)
-        {
-            using (var client = new HttpClient())
-                try
-                {
-                    var response = await client.DeleteAsync(uri);
-                    return response;
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-        }
-
-        public async static Task<HttpResponseMessage> CallPatchAsync<T>(Uri uri, T content)
-        {
-            throw new NotImplementedException();
+                return result;
+            }
         }
     }
 }

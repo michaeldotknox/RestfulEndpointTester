@@ -18,10 +18,10 @@ namespace SampleTests
             var uri = new Uri("http://localhost:36146/v1/Samples");
 
             // Act
-            var result = await RestCall.CallGetAsync(uri);
+            var result = await RestCall.CallGetAsync<GetItemList>(uri);
 
             // Assert
-            result.IsSuccessStatusCode.Should().BeTrue();
+            result.Status.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
@@ -31,10 +31,10 @@ namespace SampleTests
             var uri = new Uri("http://localhost:36146/v1/Samples");
 
             // Act
-            var result = await RestCall.CallGetAsync(uri);
+            var result = await RestCall.CallGetAsync<GetItem>(uri);
 
             // Assert
-            result.IsSuccessStatusCode.Should().BeFalse();
+            result.Status.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
@@ -45,10 +45,10 @@ namespace SampleTests
             var content = new PostItem();
 
             // Act
-            var result = await RestCall.CallPostAsync(uri, content);
+            var result = await RestCall.CallPostAsync<GetItem, PostItem>(uri, content);
 
             // Assert
-            result.StatusCode.Should().Be(HttpStatusCode.Created);
+            result.Status.Should().Be(HttpStatusCode.Created);
         }
 
         [Test]
@@ -59,10 +59,10 @@ namespace SampleTests
             var content = new PutItem();
 
             // Act
-            var result = await RestCall.CallPutAsync(uri, content);
+            var result = await RestCall.CallPutAsync<GetItem, PutItem>(uri, content);
 
             // Assert
-            result.StatusCode.Should().Be(HttpStatusCode.OK);
+            result.Status.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace SampleTests
             var result = await RestCall.CallDeleteAsync(uri);
 
             // Assert
-            result.StatusCode.Should().Be(HttpStatusCode.OK);
+            result.Status.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace SampleTests
             var result = await RestCall.CallOptionsAsync(uri);
 
             // Assert
-            result.StatusCode.Should().Be(HttpStatusCode.OK);
+            result.Status.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace SampleTests
             var result = await RestCall.CallOptionsAsync(uri);
 
             // Assert
-            result.StatusCode.Should().Be(HttpStatusCode.OK);
+            result.Status.Should().Be(HttpStatusCode.OK);
         }
     }
 }

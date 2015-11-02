@@ -53,6 +53,8 @@
     <Compile Include="ExceptionInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestCall.cs" />
+    <Compile Include="RestCallContentResult.cs" />
+    <Compile Include="RestCallNoContentResult.cs" />
     <Compile Include="ResultInfo.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="TestInfo.cs" />
