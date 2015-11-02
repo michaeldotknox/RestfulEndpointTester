@@ -80,8 +80,13 @@ namespace TestSuite
             var testResult = new TestInfo {Name = test.Name, Result = TestResult.NotRun};
             try
             {
+                var attribute = test.GetCustomAttribute<TestAttribute>();
+                var preTest = attribute.PreTestAction;
+                var postTest = attribute.PostTestAction;
+                preTest?.Invoke();
                 var result = (Task) test.Invoke(testClass, new object[] {});
                 await result;
+                postTest?.Invoke();
                 testResult.Result = TestResult.Pass;
             }
             catch (Exception e)
