@@ -8,18 +8,9 @@ namespace TestSuite.Attributes
     [AttributeUsage(AttributeTargets.Method)]
     public class TestAttribute : Attribute
     {
-        public Action PreTestAction { get; private set; } 
-        public Action PostTestAction { get; private set; } 
-         
         public TestAttribute()
         {
             
-        }
-
-        public TestAttribute(Action preTestAction = null, Action postTestAction = null)
-        {
-            PreTestAction = preTestAction;
-            PostTestAction = postTestAction;
         }
     }
 }
