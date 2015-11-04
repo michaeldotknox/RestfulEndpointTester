@@ -3,7 +3,7 @@ using TestSuite.Enums;
 
 namespace TestSuite
 {
-    public class TestInfo
+    public class TestResultInfo
     {
         public string Name { get; set; }
         public TestResult Result { get; set; }
