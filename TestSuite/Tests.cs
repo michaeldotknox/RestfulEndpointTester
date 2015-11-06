@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using TestSuite.Attributes;
 using TestSuite.Enums;
@@ -32,7 +31,9 @@ namespace TestSuite
                     {
                         Assembly = assembly,
                         Type = testClass,
-                        Tests = testClass.GetMethods().Where(m => m.GetCustomAttribute<TestAttribute>() != null)
+                        Tests = testClass.GetMethods().Where(m => m.GetCustomAttribute<TestAttribute>() != null),
+                        PreTest = testClass.GetMethods().FirstOrDefault(m => m.GetCustomAttribute<PreTestAttribute>() != null),
+                        PostTest = testClass.GetMethods().FirstOrDefault(m => m.GetCustomAttribute<PostTestAttribute>() != null)
                     });
                 }
             }
@@ -52,14 +53,14 @@ namespace TestSuite
 
         public async Task<ResultInfo> Run()
         {
-            var testResults = new List<TestInfo>();
+            var testResults = new List<TestResultInfo>();
 
             foreach (var type in _tests)
             {
                 var testClass = type.Assembly.CreateInstance(type.Type.ToString());
                 foreach (var test in type.Tests)
                 {
-                    var testResult = await ExecuteTest(test, testClass);
+                    var testResult = await ExecuteTest(test, type.PreTest, type.PostTest, testClass);
                     testResults.Add(testResult);
                 }
             }
@@ -75,13 +76,23 @@ namespace TestSuite
             return testsResult;
         }
 
-        private static async Task<TestInfo> ExecuteTest(MethodInfo test, object testClass)
+        private static async Task<TestResultInfo> ExecuteTest(MethodInfo test, MethodInfo preTest, MethodInfo postTest, object testClass)
         {
-            var testResult = new TestInfo {Name = test.Name, Result = TestResult.NotRun};
+            var testResult = new TestResultInfo {Name = test.Name, Result = TestResult.NotRun};
             try
             {
+                if (preTest != null)
+                {
+                    var preTestResult = (Task) preTest.Invoke(testClass, new object[] {});
+                    await preTestResult;
+                }
                 var result = (Task) test.Invoke(testClass, new object[] {});
                 await result;
+                if (postTest != null)
+                {
+                    var postTestResult = (Task) postTest.Invoke(testClass, new object[] {});
+                    await postTestResult;
+                }
                 testResult.Result = TestResult.Pass;
             }
             catch (Exception e)

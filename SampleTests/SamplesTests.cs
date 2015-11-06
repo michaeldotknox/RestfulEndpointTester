@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using System.Transactions;
 using Common.DataContracts.v1;
 using FluentAssertions;
 using TestSuite;
@@ -11,6 +12,8 @@ namespace SampleTests
     [TestClass]
     public class SamplesTests
     {
+        private TransactionScope _scope;
+
         [Test]
         public async Task CallingGetAllEndpointReturnsOk()
         {
@@ -102,6 +105,18 @@ namespace SampleTests
 
             // Assert
             result.Status.Should().Be(HttpStatusCode.OK);
+        }
+
+        [PreTest]
+        public async Task PreTestActions()
+        {
+            _scope = new TransactionScope();
+        }
+
+        [PostTest]
+        public async Task PostTestActions()
+        {
+            _scope.Dispose();
         }
     }
 }

@@ -57,7 +57,7 @@
     <Compile Include="RestCallNoContentResult.cs" />
     <Compile Include="ResultInfo.cs" />
     <Compile Include="TestClass.cs" />
-    <Compile Include="TestInfo.cs" />
+    <Compile Include="TestResultInfo.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>
