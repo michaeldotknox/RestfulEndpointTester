@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Common.DataContracts.v1;
-using TestWebApi.Services;
 
 namespace TestWebApi.Controllers
 {
@@ -48,8 +47,7 @@ namespace TestWebApi.Controllers
         [Route("v1/Samples/{id}")]
         public IHttpActionResult Get(int id)
         {
-            var itemService = new ItemService();
-            return Ok(new ItemService().Get(id));
+            return Ok(new GetItem {Id = id, Name = "Name 1"});
         }
 
         [HttpPost]
