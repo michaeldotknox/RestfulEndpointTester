@@ -48,16 +48,23 @@ namespace TestSuite
         {
             using (var client = new HttpClient())
             {
-                var callResult = await client.SendAsync(request);
-                var result = new RestCallContentResult<TContent>
+                try
                 {
-                    Headers = callResult.Headers,
-                    Status = callResult.StatusCode,
-                    Content = JsonConvert.DeserializeObject<TContent>(await callResult.Content.ReadAsStringAsync()),
-                    HttpResponseMessage = callResult
-                };
+                    var callResult = await client.SendAsync(request);
+                    var result = new RestCallContentResult<TContent>
+                    {
+                        Headers = callResult.Headers,
+                        Status = callResult.StatusCode,
+                        Content = JsonConvert.DeserializeObject<TContent>(await callResult.Content.ReadAsStringAsync()),
+                        HttpResponseMessage = callResult
+                    };
 
-                return result;
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
         }
 

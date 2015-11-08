@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 using Microsoft.Owin;
 using Newtonsoft.Json.Serialization;
 using Owin;
@@ -19,6 +20,8 @@ namespace TestWebApi
             json.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
 
             config.MapHttpAttributeRoutes();
+
+            config.Services.Replace(typeof(IExceptionHandler), new ExceptionFilter());
             app.UseWebApi(config);
         }
     }
