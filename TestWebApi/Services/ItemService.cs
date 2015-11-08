@@ -1,19 +1,23 @@
-﻿using System;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 using Common.DataContracts.v1;
+using Dapper;
 
 namespace TestWebApi.Services
 {
     public class ItemService
     {
-        public GetItem Get(int id)
+        public async Task<GetItem> Get(int id)
         {
             var connectionString =
                 @"Server =.\SQLExpress; AttachDbFilename =|DataDirectory| testdata.mdf; Database = dbname;Trusted_Connection = Yes;";
-            var connection = new SqlConnection(connectionString);
-            connection.Open();
-            connection.Close();
-            throw new NotImplementedException();
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var item = (await connection.QueryAsync<GetItem>("SELECT Id, Name FROM Item WHERE Id = @Id", new[] {id})).FirstOrDefault();
+
+                return item;
+            }
         }
     }
 }

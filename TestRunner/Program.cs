@@ -15,6 +15,11 @@ namespace TestRunner
 
             var results = task.Result;
 
+            Console.WriteLine($"{results.TotalTests} tests run");
+            Console.WriteLine($"{results.TestsFailed} tests failed");
+            Console.WriteLine($"{results.TestsPassed} tests passed");
+            Console.WriteLine($"{results.TestsNotRun} tests not run");
+
             foreach (var test in results.TestInfo)
             {
                 Console.WriteLine($"{test.Name}:{test.Result}");

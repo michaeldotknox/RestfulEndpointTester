@@ -41,6 +41,19 @@ namespace SampleTests
         }
 
         [Test]
+        public async Task CallingBySingleEndpointReturnsOk()
+        {
+            // Arrange
+            var uri = new Uri("http://localhost:36146/v1/Samples/1");
+
+            // Act
+            var result = await RestCall.CallGetAsync<GetItem>(uri);
+
+            // Assert
+            result.Status.Should().Be(HttpStatusCode.OK);
+        }
+        
+        [Test]
         public async Task CallingPostReturnsCreated()
         {
             // Arrange
@@ -110,13 +123,13 @@ namespace SampleTests
         [PreTest]
         public async Task PreTestActions()
         {
-            _scope = new TransactionScope();
+            /////_scope = new TransactionScope();
         }
 
         [PostTest]
         public async Task PostTestActions()
         {
-            _scope.Dispose();
+            /////_scope.Dispose();
         }
     }
 }
