@@ -7,8 +7,8 @@
     <ProjectGuid>{7AB3268C-AD74-48C3-B604-AF671A719E37}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestSuite</RootNamespace>
-    <AssemblyName>TestSuite</AssemblyName>
+    <RootNamespace>RestfulEndpoints</RootNamespace>
+    <AssemblyName>RestfulEndpoints</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
