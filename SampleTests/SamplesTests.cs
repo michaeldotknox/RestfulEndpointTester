@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -21,7 +22,7 @@ namespace SampleTests
             var uri = new Uri("http://localhost:36146/v1/Samples");
 
             // Act
-            var result = await RestCall.CallGetAsync<GetItemList>(uri);
+            var result = await RestCall.CallGetAsync<IEnumerable<GetItemList>>(uri);
 
             // Assert
             result.Status.Should().Be(HttpStatusCode.OK);
@@ -34,7 +35,7 @@ namespace SampleTests
             var uri = new Uri("http://localhost:36146/v1/Samples");
 
             // Act
-            var result = await RestCall.CallGetAsync<GetItem>(uri);
+            var result = await RestCall.CallGetAsync<IEnumerable<GetItemList>>(uri);
 
             // Assert
             result.Status.Should().Be(HttpStatusCode.OK);
