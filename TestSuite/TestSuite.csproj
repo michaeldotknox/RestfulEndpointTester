@@ -61,6 +61,7 @@
     <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="appveyor.yml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
