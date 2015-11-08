@@ -79,21 +79,21 @@ namespace TestSuite
         private static async Task<TestResultInfo> ExecuteTest(MethodInfo test, MethodInfo preTest, MethodInfo postTest, object testClass)
         {
             var testResult = new TestResultInfo {Name = test.Name, Result = TestResult.NotRun};
+            var tasks = new List<Task>();
             try
             {
                 if (preTest != null)
                 {
-                    var preTestResult = (Task) preTest.Invoke(testClass, new object[] {});
-                    await preTestResult;
+                    tasks.Add((Task) preTest.Invoke(testClass, new object[] {}));
                 }
-                var result = (Task) test.Invoke(testClass, new object[] {});
-                await result;
+                tasks.Add((Task) test.Invoke(testClass, new object[] {}));
                 if (postTest != null)
                 {
-                    var postTestResult = (Task) postTest.Invoke(testClass, new object[] {});
-                    await postTestResult;
+                    tasks.Add((Task) postTest.Invoke(testClass, new object[] {}));
                 }
                 testResult.Result = TestResult.Pass;
+
+                await Task.WhenAll(tasks);
             }
             catch (Exception e)
             {

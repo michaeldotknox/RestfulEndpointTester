@@ -123,13 +123,13 @@ namespace SampleTests
         [PreTest]
         public async Task PreTestActions()
         {
-            /////_scope = new TransactionScope();
+            _scope = new TransactionScope();
         }
 
         [PostTest]
         public async Task PostTestActions()
         {
-            /////_scope.Dispose();
+            _scope.Dispose();
         }
     }
 }
