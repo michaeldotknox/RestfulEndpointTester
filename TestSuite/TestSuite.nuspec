@@ -9,7 +9,8 @@
     <projectUrl>https://github.com/michaeldotknox/restfulendpointtester</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A framework for testing RESTful endpoints in .Net</description>
-    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <summary>A framework for testing RESTful endpoints in .Net</summary>
+    <releaseNotes>This is the first release of the RESTful endpoint tester.  Please see the site for more information on using the framework.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>WebApi REST</tags>
   </metadata>
