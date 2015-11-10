@@ -78,7 +78,7 @@ namespace TestSuite
 
         private static async Task<TestResultInfo> ExecuteTest(MethodInfo test, MethodInfo preTest, MethodInfo postTest, object testClass)
         {
-            var testResult = new TestResultInfo {Name = test.Name, Result = TestResult.NotRun};
+            var testResult = new TestResultInfo {ClassName = testClass.GetType().Name ,TestName = test.Name, Result = TestResult.NotRun};
             var tasks = new List<Task>();
             try
             {

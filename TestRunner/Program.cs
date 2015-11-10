@@ -22,10 +22,20 @@ namespace TestRunner
 
             foreach (var test in results.TestInfo)
             {
-                Console.WriteLine($"{test.Name}:{test.Result}");
+                Console.Write($"{test.ClassName}:{test.TestName}: ");
                 if (test.Result == TestResult.Fail)
                 {
-                    Console.WriteLine($"{test.Name}:{test.Exception.Message}");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                else
+                {
+                    Console.ForegroundColor = test.Result == TestResult.NotRun ? ConsoleColor.Yellow : ConsoleColor.Green;
+                }
+                Console.WriteLine(test.Result);
+                Console.ResetColor();
+                if (test.Result == TestResult.Fail)
+                {
+                    Console.WriteLine($"{test.TestName}:{test.Exception.Message}");
                 }
             }
 
