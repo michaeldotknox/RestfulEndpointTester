@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,15 +16,16 @@ namespace TestRunner
             string directory = null;
             string filename = null;
 
-            if (args.Count() == 1)
+            var variables = args.Select(arg => arg.Split(new[] {"="}, StringSplitOptions.None)).ToDictionary(argItem => argItem[0], argItem => argItem[1]);
+
+            if (variables.ContainsKey("directory"))
             {
-                var argList = args[0].Split(new[] {"="}, StringSplitOptions.None);
-                var path = argList[1];
+                var path = variables["directory"];
                 directory = Path.GetDirectoryName(Path.GetFullPath(path));
                 filename = Path.GetFileName(path);
             }
 
-            var tests = (directory == null || filename == null) ? Tests.Initialize() : Tests.Initialize(directory, filename);
+            var tests = ((directory == null || filename == null) ? Tests.Initialize() : Tests.Initialize(directory, filename)).WithVariables(variables);
             var task = tests.Run();
             Task.WaitAll(task);
 

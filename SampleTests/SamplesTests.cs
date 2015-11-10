@@ -32,7 +32,7 @@ namespace SampleTests
         public async Task CallingGetAllEndPointReturnsOkButFailAnyway()
         {
             // Arrange
-            var uri = new Uri("http://localhost:36146/v1/Samples");
+            const string uri = "${server}/v1/Samples";
 
             // Act
             var result = await RestCall.CallGetAsync<IEnumerable<GetItemList>>(uri);

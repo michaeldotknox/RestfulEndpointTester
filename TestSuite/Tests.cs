@@ -14,9 +14,19 @@ namespace RestfulEndpoints
     {
         private readonly List<TestClass> _tests;
 
+        private static Tests _currentTests;
+
         private Tests(List<TestClass> tests)
         {
             _tests = tests;
+            Variables = new Dictionary<string, string>();
+        }
+
+        internal IDictionary<string, string> Variables { get; private set; }
+
+        internal static Tests GetCurentTest()
+        {
+            return _currentTests;
         }
 
         public static Tests Initialize(string directory)
@@ -44,7 +54,8 @@ namespace RestfulEndpoints
                 }
             }
 
-            return new Tests(tests);
+            _currentTests = new Tests(tests);
+            return _currentTests;
         }
 
         public static Tests Initialize()
@@ -102,6 +113,13 @@ namespace RestfulEndpoints
                 testResult.Exception = e;
             }
             return testResult;
+        }
+
+        public Tests WithVariables(IDictionary<string, string> variables)
+        {
+            Variables = variables;
+
+            return this;
         }
     }
 }
