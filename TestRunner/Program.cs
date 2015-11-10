@@ -1,5 +1,8 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using RestfulEndpoints;
 using TestSuite;
 using TestSuite.Enums;
 
@@ -9,7 +12,18 @@ namespace TestRunner
     {
         static void Main(string[] args)
         {
-            var tests = Tests.Initialize();
+            string directory = null;
+            string filename = null;
+
+            if (args.Count() == 1)
+            {
+                var argList = args[0].Split(new[] {"="}, StringSplitOptions.None);
+                var path = argList[1];
+                directory = Path.GetDirectoryName(Path.GetFullPath(path));
+                filename = Path.GetFileName(path);
+            }
+
+            var tests = (directory == null || filename == null) ? Tests.Initialize() : Tests.Initialize(directory, filename);
             var task = tests.Run();
             Task.WaitAll(task);
 

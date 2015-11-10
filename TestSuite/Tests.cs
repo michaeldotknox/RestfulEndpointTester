@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using TestSuite;
 using TestSuite.Attributes;
 using TestSuite.Enums;
 
-namespace TestSuite
+namespace RestfulEndpoints
 {
     public class Tests
     {
@@ -18,10 +19,15 @@ namespace TestSuite
             _tests = tests;
         }
 
-        public static Tests Initialize()
+        public static Tests Initialize(string directory)
+        {
+            return Initialize(directory, "*.dll");
+        }
+
+        public static Tests Initialize(string directory, string filenamePattern)
         {
             var tests = new List<TestClass>();
-            foreach (var file in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))
+            foreach (var file in Directory.GetFiles(directory, filenamePattern))
             {
                 var assembly = Assembly.LoadFile(file);
                 var testClasses = assembly.GetTypes().Where(t => t.GetCustomAttribute<TestClassAttribute>() != null);
@@ -39,6 +45,11 @@ namespace TestSuite
             }
 
             return new Tests(tests);
+        }
+
+        public static Tests Initialize()
+        {
+            return Initialize(AppDomain.CurrentDomain.BaseDirectory);
         }
 
         public async Task<ResultInfo> Run()
