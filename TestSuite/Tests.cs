@@ -41,16 +41,6 @@ namespace TestSuite
             return new Tests(tests);
         }
 
-        public static Tests Initialize(string serverName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static Tests Initialize(Methods method, string serverName)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ResultInfo> Run()
         {
             var testResults = new List<TestResultInfo>();
