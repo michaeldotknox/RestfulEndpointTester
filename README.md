@@ -25,3 +25,6 @@ You can use the code from the test runner to run your tests via a command line, 
 
 ##Run the Tests
 By default, the RESTFul Endpoint Tester will look for tests in the assemblies in the current directory.  With the default test runner, you can specify a directory and filename with the directory={path\filename} argument.
+
+#Suggestions are Always Welcome
+I am always open to suggestion and contributions.  Feel free to submit an issue to ask a question or to report a problem.
