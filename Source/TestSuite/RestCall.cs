@@ -1,17 +1,13 @@
 ﻿using System;
-using System.CodeDom;
-using System.ComponentModel.Design;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using RestfulEndpoints;
+using TestSuite;
 
-namespace TestSuite
+namespace RestfulEndpoints
 {
     public static class RestCall
     {
