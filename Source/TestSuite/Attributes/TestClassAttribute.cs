@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestSuite.Attributes
+namespace RestfulEndpoints.Attributes
 {
     /// <summary>
     /// Applies to a class and indicates that the class contains tests

@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace TestSuite
+namespace RestfulEndpoints
 {
     public class RestCallNoContentResult
     {

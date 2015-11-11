@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
-namespace TestSuite
+namespace RestfulEndpoints
 {
     public class ExceptionInfo
     {

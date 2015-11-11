@@ -1,4 +1,4 @@
-﻿namespace TestSuite.Enums
+﻿namespace RestfulEndpoints.Enums
 {
     public enum TestResult
     {

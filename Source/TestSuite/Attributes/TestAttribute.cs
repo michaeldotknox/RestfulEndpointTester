@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestSuite.Attributes
+namespace RestfulEndpoints.Attributes
 {
     /// <summary>
     /// Applies to methods and indicates that the method is a test

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestSuite.Attributes
+namespace RestfulEndpoints.Attributes
 {
     /// <summary>
     /// Applies to methods and indicates that the method will run before each test

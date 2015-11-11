@@ -1,7 +1,7 @@
 ﻿using System;
-using TestSuite.Enums;
+using RestfulEndpoints.Enums;
 
-namespace TestSuite
+namespace RestfulEndpoints
 {
     public class TestResultInfo
     {

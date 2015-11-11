@@ -4,9 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using TestSuite;
-using TestSuite.Attributes;
-using TestSuite.Enums;
+using RestfulEndpoints.Attributes;
+using RestfulEndpoints.Enums;
 
 namespace RestfulEndpoints
 {

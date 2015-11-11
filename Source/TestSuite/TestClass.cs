@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace TestSuite
+namespace RestfulEndpoints
 {
     public class TestClass
     {

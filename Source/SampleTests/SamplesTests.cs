@@ -6,8 +6,7 @@ using System.Transactions;
 using Common.DataContracts.v1;
 using FluentAssertions;
 using RestfulEndpoints;
-using TestSuite;
-using TestSuite.Attributes;
+using RestfulEndpoints.Attributes;
 
 namespace SampleTests
 {

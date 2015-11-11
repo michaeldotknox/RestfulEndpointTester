@@ -4,8 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using RestfulEndpoints;
-using TestSuite;
-using TestSuite.Enums;
+using RestfulEndpoints.Enums;
 
 namespace TestRunner
 {
