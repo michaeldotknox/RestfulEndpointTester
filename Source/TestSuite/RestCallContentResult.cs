@@ -11,4 +11,12 @@ namespace RestfulEndpoints
         public TContent Content { get; set; }
         public HttpResponseMessage HttpResponseMessage { get; set; }
     }
+
+    public class RestCallContentResult
+    {
+        public HttpStatusCode Status { get; set; }
+        public HttpResponseHeaders Headers { get; set; }
+        public object Content { get; set; }
+        public HttpResponseMessage HttpResponseMessage { get; set; }
+    }
 }
