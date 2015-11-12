@@ -132,11 +132,6 @@ namespace RestfulEndpoints
             return await MakeRestCallWithoutContentAsync(requestMessage);
         }
 
-        public static async Task<RestCallContentResult<TContentOut>> CallPatchAsync<TContentOut, TContentIn>(Uri uri, TContentIn content) where TContentOut : class
-        {
-            throw new NotImplementedException();
-        }
-
         private async static Task<RestCallContentResult<TContent>> MakeRestCallAsync<TContent>(HttpRequestMessage request) where TContent : class
         {
             using (var client = new HttpClient())
