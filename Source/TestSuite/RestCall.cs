@@ -10,6 +10,29 @@ namespace RestfulEndpoints
 {
     public static class RestCall
     {
+        public static async Task<RestCallContentResult> CallGetAsync(string uri, string username, string password)
+        {
+            return await CallGetAsync(CreateUri(uri), username, password);
+        }
+
+        public static async Task<RestCallContentResult> CallGetAsync(Uri uri, string username, string password)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("basic", Encode(username, password));
+            return await MakeRestCallAsync(requestMessage);
+        }
+
+        public static async Task<RestCallContentResult> CallGetAsync(string uri)
+        {
+            return await CallGetAsync(CreateUri(uri));
+        }
+
+        public async static Task<RestCallContentResult> CallGetAsync(Uri uri)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+            return await MakeRestCallAsync(requestMessage);
+        }
+
         public static async Task<RestCallContentResult<TContentOut>> CallGetAsync<TContentOut>(string uri,
             string username, string password) where TContentOut : class
         {
@@ -36,6 +59,31 @@ namespace RestfulEndpoints
             return await MakeRestCallAsync<TContentOut>(requestMessage);
         }
 
+        public static async Task<RestCallContentResult> CallPostAsync<TContentIn>(string uri,
+            TContentIn content, string username, string password)
+        {
+            return await CallPostAsync(CreateUri(uri), content, username, password);
+        }
+
+        public async static Task<RestCallContentResult> CallPostAsync<TContentIn>(Uri uri, TContentIn content, string username, string password)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri) { Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json") };
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("basic", Encode(username, password));
+            return await MakeRestCallAsync(requestMessage);
+        }
+
+        public async static Task<RestCallContentResult> CallPostAsync<TContentIn>(string uri,
+            TContentIn content)
+        {
+            return await CallPostAsync(CreateUri(uri), content);
+        }
+
+        public async static Task<RestCallContentResult> CallPostAsync<TContentIn>(Uri uri, TContentIn content)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri) { Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json") };
+            return await MakeRestCallAsync(requestMessage);
+        }
+
         public static async Task<RestCallContentResult<TContentOut>> CallPostAsync<TContentOut, TContentIn>(string uri,
             TContentIn content, string username, string password) where TContentOut : class
         {
@@ -59,6 +107,31 @@ namespace RestfulEndpoints
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, uri) { Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json") };
             return await MakeRestCallAsync<TContentOut>(requestMessage);
+        }
+
+        public async static Task<RestCallContentResult> CallPutAsync<TContentIn>(string uri,
+            TContentIn content, string username, string password)
+        {
+            return await CallPostAsync(CreateUri(uri), content, username, password);
+        }
+
+        public static async Task<RestCallContentResult> CallPutAsync<TContentIn>(Uri uri, TContentIn content, string username, string password)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Put, uri) { Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json") };
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("basic", Encode(username, password));
+            return await MakeRestCallAsync(requestMessage);
+        }
+
+        public async static Task<RestCallContentResult> CallPutAsync<TContentIn>(string uri,
+            TContentIn content)
+        {
+            return await CallPutAsync(CreateUri(uri), content);
+        }
+
+        public static async Task<RestCallContentResult> CallPutAsync<TContentIn>(Uri uri, TContentIn content)
+        {
+            var requestMessage = new HttpRequestMessage(HttpMethod.Put, uri) { Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json") };
+            return await MakeRestCallAsync(requestMessage);
         }
 
         public async static Task<RestCallContentResult<TContentOut>> CallPutAsync<TContentOut, TContentIn>(string uri,
@@ -144,6 +217,30 @@ namespace RestfulEndpoints
                         Headers = callResult.Headers,
                         Status = callResult.StatusCode,
                         Content = JsonConvert.DeserializeObject<TContent>(await callResult.Content.ReadAsStringAsync()),
+                        HttpResponseMessage = callResult
+                    };
+
+                    return result;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        private async static Task<RestCallContentResult> MakeRestCallAsync(HttpRequestMessage request)
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var callResult = await client.SendAsync(request);
+                    var result = new RestCallContentResult
+                    {
+                        Headers = callResult.Headers,
+                        Status = callResult.StatusCode,
+                        Content = JsonConvert.DeserializeObject<object>(await callResult.Content.ReadAsStringAsync()), // TODO:Not sure if this will work
                         HttpResponseMessage = callResult
                     };
 
