@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>RestfulEndpointTester</id>
-    <version>$version$-beta</version>
+    <version>$version$</version>
     <title>RESTful Endpoint Tester</title>
     <authors>Michael Knox</authors>
     <owners>Michael Knox</owners>
@@ -10,7 +10,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A framework for testing RESTful endpoints in .Net</description>
     <summary>A framework for testing RESTful endpoints in .Net</summary>
-    <releaseNotes>This is the second release of the RESTful endpoint tester.  Please see the site for more information on using the framework.</releaseNotes>
+    <releaseNotes>This is the next release of the RESTfulEndpointTester.  See https://github.com/michael.knox.com/restfulendpointtester for details of what was changed.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>WebApi REST</tags>
   </metadata>
