@@ -38,8 +38,17 @@ namespace RestfulEndpoints
             var tests = new List<TestClass>();
             foreach (var file in Directory.GetFiles(directory, filenamePattern))
             {
+                var reflectedAssembly = Assembly.ReflectionOnlyLoadFrom(file);
+                var referencedAssemblies = reflectedAssembly.GetReferencedAssemblies();
+                foreach (var referencedAssembly in referencedAssemblies)
+                {
+                    Assembly.ReflectionOnlyLoad(referencedAssembly.FullName);
+                }
+                var attributeType = typeof (TestClassAttribute).ToString();
+                var testClassCount = reflectedAssembly.GetTypes().Count(t => t.GetCustomAttributesData().Any(x => x.AttributeType.ToString() == attributeType));
+                if (testClassCount == 0) continue;
                 var assembly = Assembly.LoadFile(file);
-                var testClasses = assembly.GetTypes().Where(t => t.GetCustomAttribute<TestClassAttribute>() != null);
+                var testClasses = assembly.GetTypes().Where(x => x.GetCustomAttribute<TestClassAttribute>() != null);
                 foreach (var testClass in testClasses)
                 {
                     tests.Add(new TestClass
