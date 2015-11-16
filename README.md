@@ -6,6 +6,14 @@ A framework to make it easier to test RESTful endpoints using the syntax similar
 
 More documentation is coming soon.
 
+## What's changed in version 0.3
+There are a few changed in the latest version.
+* Changed the name of the namespace for the TestSuite project.  This will likely break some code if you've been using any old version.  Apologies in advance.
+* Reorganized the source code directories
+* Created versions of the rest calls to make synchronous calls and to return generic objects
+* Added some more documentation to the code and to the readme file
+* Made the code to load an assembly a little more memory friendly.  If an assembly does not have any test classes in it, then the assembly is not fully loaded.
+
 To get started, install the NuGet package in your test project.  Create your tests using the sample test project as an example.  To run the tests, create a console application, initialize the tests and run them.  See the TestRunner project as an example.  The TestSuite component will search for assemblies with tests in the current directory.
 
 The Restful Endpoint Tester is a framework to test RESTful Endpoints using .Net.  If you are familiar with NUnit, then the syntax should be similar.  There are four steps to creating tests for your endpoints.
